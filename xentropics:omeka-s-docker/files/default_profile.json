@@ -1,0 +1,20 @@
+{
+  "install_form": {
+    "user[email]": "jeroen.seeverens@gmail.com",
+    "user[email-confirm]": "jeroen.seeverens@gmail.com",
+    "user[name]": "Jeroen Seeverens",
+    "user[password-confirm][password]": "pcEg8r9FTjYzHhPc",
+    "user[password-confirm][password-confirm]": "pcEg8r9FTjYzHhPc",
+    "settings[installation_title]": "Omeka S on docker",
+    "settings[time_zone]": "Europe/Brussels",
+    "settings[locale]": "nl_NL",
+    "submit": "Submit"
+  },
+  "database": {
+    "user": "exampleuser",
+    "dbname": "exampledb",
+    "host": "db",
+    "port": "3306",
+    "password": "examplepass"
+  }
+}

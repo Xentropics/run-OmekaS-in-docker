@@ -1,0 +1,38 @@
+version: "3"
+services:
+  db:
+    image: mysql:latest 
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'   
+    volumes:
+      - db:/var/lib/mysql
+  db_admin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    links:
+      - db:db
+    ports:
+      - "8080:80"
+  omeka-s:
+    image: xentropics/omeka-s:0.1
+    links:
+     - db:db
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - omeka:/var/www/html/files
+    ports:
+      - 80:80
+    environment:
+      host: db
+      user: exampleuser
+      password: examplepass
+      dbname: exampledb
+volumes:
+  db:
+  omeka:
