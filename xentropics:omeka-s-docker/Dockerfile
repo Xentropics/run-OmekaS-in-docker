@@ -9,25 +9,27 @@ LABEL maintainer="Jeroen Seeverens <j.seeverens@xentropics.nl>"
 LABEL description="Omeka S base image"
 LABEL version="0.1"
 
-# dev deps
+# build deps and utils
 RUN apt-get update && \
     apt-get -y install --no-install-recommends \
     git-core \
     unzip \
     mc \
     jq \
+    tidy \
+    xmlstarlet \
     mariadb-client
 
 # deps
 RUN apt-get -y install --no-install-recommends \
     imagemagick
-COPY ./files/imagemagick-policy.xml /etc/ImageMagick/policy.xml
+COPY ./files/etc/imagemagick-policy.xml /etc/ImageMagick/policy.xml
 
 # php deps and config
 RUN docker-php-ext-install -j$(nproc) pdo_mysql mysqli
-COPY ./files/php.ini /usr/local/etc/php/
+COPY ./files/etc/php.ini /usr/local/etc/php/
 
-## download Omeka
+# download Omeka
 ARG omeka_version
 RUN rm -rf /var/www/html/*
 ADD https://github.com/omeka/omeka-s/releases/download/v${omeka_version}/omeka-s-${omeka_version}.zip /tmp/omeka-s.zip
@@ -38,15 +40,16 @@ VOLUME [ "/var/www/html/files" ]
 # apache config
 ADD https://raw.githubusercontent.com/omeka/omeka-s/develop/.htaccess.dist /var/www/html/.htaccess
 RUN a2enmod rewrite
-COPY ./files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./files/etc/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 RUN chown -R www-data:www-data /var/www/html/
 
 # server init config
 ARG config_profile
-COPY files/${config_profile}.json /var/www/html/profile.json
-COPY files/autoexec.sh /var/www/html/autoexec.sh
-RUN chmod 755 /var/www/html/autoexec.sh
+COPY files/etc/${config_profile}.json /opt/imageboot/profile.json
+COPY files/scripts/entrypoint.sh /opt/imageboot/entrypoint.sh
+COPY files/scripts/bootstrap.sh /opt/imageboot/bootstrap.sh
+RUN chmod 755 /opt/imageboot/entrypoint.sh
 
 # run
 EXPOSE 80
-ENTRYPOINT [ "/var/www/html/autoexec.sh" ]
+ENTRYPOINT [ "/opt/imageboot/entrypoint.sh" ]

@@ -16,5 +16,15 @@
     "host": "db",
     "port": "3306",
     "password": "examplepass"
-  }
+  },
+  "modules": [
+    {
+      "name": "ImageServer",
+      "version": "3.6.10.3",
+      "zipUrl": "https://github.com/Daniel-KM/Omeka-S-module-ImageServer/releases/download/3.6.10.3/ImageServer-3.6.10.3.zip",
+      "enable": true,
+      "config": true,
+      "configForm": { "url": "", "formData": [] }
+    }
+  ]
 }
