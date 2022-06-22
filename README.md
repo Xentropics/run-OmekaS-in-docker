@@ -27,7 +27,7 @@ A bunch of scripts and config files that
 
 ## What are these files for?
 
-This is a lame excuse for documentation, but will have to do for now.
+Not exactly up to documentation standards, but will have to do for now.
 
 ### In xentropics:omeka-s-docker/files/etc
 
