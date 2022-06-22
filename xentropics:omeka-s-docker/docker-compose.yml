@@ -1,13 +1,13 @@
 version: "3"
 services:
   db:
-    image: mysql:latest 
+    image: mysql:latest
     restart: always
     environment:
       MYSQL_DATABASE: exampledb
       MYSQL_USER: exampleuser
       MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'   
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
     volumes:
       - db:/var/lib/mysql
   db_admin:
@@ -20,12 +20,15 @@ services:
   omeka-s:
     image: xentropics/omeka-s:0.1
     links:
-     - db:db
+      - db:db
     restart: always
     depends_on:
       - db
     volumes:
       - omeka:/var/www/html/files
+      - type: bind
+        source: ./files/scripts/install-modules.sh
+        target: /opt/imageboot/install-modules.sh
     ports:
       - 80:80
     environment:

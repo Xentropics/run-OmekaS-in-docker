@@ -48,7 +48,8 @@ ARG config_profile
 COPY files/etc/${config_profile}.json /opt/imageboot/profile.json
 COPY files/scripts/entrypoint.sh /opt/imageboot/entrypoint.sh
 COPY files/scripts/bootstrap.sh /opt/imageboot/bootstrap.sh
-RUN chmod 755 /opt/imageboot/entrypoint.sh
+COPY files/scripts/install-modules.sh /opt/imageboot/install-modules.sh
+RUN chmod 755 /opt/imageboot/*.sh
 
 # run
 EXPOSE 80

@@ -1,7 +1,7 @@
 #!/bin/sh
 # 2022 by Jeroen Seeverens, Xentropics (CC BY)
 
-# exit on error so docker image will terminate
+# exit on error so container will terminate
 set -e
 
 echo "bootstrap.sh : reading db-settings"
@@ -20,7 +20,7 @@ do
     sleep 10
     TRY=$((TRY+1)) 
 done
-# will fail if server not uo by now
+# will fail if server not up by now
 mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_NAME -N -e "SELECT NULL AS \`The ultimate question of life, the universe and everything\`;"; 
 echo "bootstrap.sh : database up!"
 
@@ -29,7 +29,7 @@ echo "bootstrap.sh : writing db-settings to Omeka database.ini"
 echo "user = $DB_USER" > /var/www/html/config/database.ini
 echo "password = $DB_PASS" >> /var/www/html/config/database.ini
 echo "host = $DB_HOST" >> /var/www/html/config/database.ini
-echo "port = $DB_PORT" >> /var/www/html/config/database.ini
+echo "port = $DB_PORT" >> /var/www/html/config/database.ini 
 echo "dbname = $DB_NAME" >> /var/www/html/config/database.ini
 
 echo "bootstrap.sh : setting permissions for www-data"
@@ -41,18 +41,13 @@ echo "bootstrap.sh : kind of checking if we already have an initialized database
 if ! mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_NAME -N -e "SELECT role FROM user LIMIT 1;"; then
     echo "bootstrap.sh : nope, starting apache"
     service apache2 start
-        echo "bootstrap.sh : posting to install form"
+        echo "bootstrap.sh : posting data to install form"
         FORM_DATA=$(jq -r '[.install_form | keys_unsorted[] as $k | ($k|@uri)+"="+(.[$k]|@uri)] | join("&")' /opt/imageboot/profile.json)
         curl -X POST http://localhost/install \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -d "${FORM_DATA}"
+    echo "bootstrap.sh : running install-modules.sh"
+    source /opt/imageboot/install-modules.sh
     echo "bootstrap.sh : done, I hope, so stopping apache"
     service apache2 stop
 fi
-
-# remove sensitive config from env (of course still in config files) 
-DB_USER=
-DB_PASS=
-DB_HOST=
-DB_PORT=
-DB_NAME=
