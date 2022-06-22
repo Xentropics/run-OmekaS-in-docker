@@ -2,7 +2,7 @@
 
 Spin up an Omeka-S instance in no-time, including selected plugins.
 
-Work in progress... use at your own risk, not recommended for production use. Doesn't follow any standards or best practices at the moment, just a proof of concept that might grow up one day.
+Version 0.2.0. Work in progress... use at your own risk, not recommended for production use. Doesn't follow any standards or best practices at the moment, just a proof of concept that might grow up one day.
 
 Created by Jeroen Seeverens @xentropics
 Inspired by [https://github.com/klokantech/omeka-s-docker]
