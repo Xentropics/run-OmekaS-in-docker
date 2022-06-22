@@ -17,7 +17,7 @@ A bunch of scripts and config files that
 - install modules during the first run,
 - optionally purge all images, but keep the data, etc.
 
-## How to us this?
+## How to use this?
 
 1. Copy xentropics:omeka-s-docker/files/etc/profile_template.json to xentropics:omeka-s-docker/files/etc/default_profile.json
 2. Edit xentropics:omeka-s-docker/files/etc/default_profile.json to match your preferences (or set some passwords at least)
