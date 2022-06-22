@@ -7,7 +7,7 @@ FROM php:$php_version-apache-$os_version
 
 LABEL maintainer="Jeroen Seeverens <j.seeverens@xentropics.nl>"
 LABEL description="Omeka S base image"
-LABEL version="0.1"
+LABEL version="0.2.0"
 
 # build deps and utils
 RUN apt-get update && \
