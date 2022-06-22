@@ -23,7 +23,7 @@ A bunch of scripts and config files that
 2. Edit xentropics:omeka-s-docker/files/etc/default_profile.json to match your preferences (or set some passwords at least)
 3. Edit docker-compose.yml to match the credentials you made up in xentropics:omeka-s-docker/files/etc/default_profile.json
 4. Optional: edit the arguments at the top of the Dockerfile
-5. Run build_run.sh and sit back and relax
+5. Run build_run.sh and sit back and relax (first install Docker btw...)
 
 ## What are these files for?
 
