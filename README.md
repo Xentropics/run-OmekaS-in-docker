@@ -55,8 +55,6 @@ Not exactly up to documentation standards, but will have to do for now.
 
 - build_run.sh : builds the omeka image, removes the old dangling containers and runs the compose file
 
-- reset_all.sh : shutdown and delete everything
-
 - reset_keep_data_and_images.sh : shutdown and keep the data and the images (no rebuild needed)
 
-- reset_keep_data.sh : shutdown and keep the data (you need to rebuild the image after this)
+- reset_keep_data.sh : shutdown and keep the data (you need to rebuild all your Docker images after this)
