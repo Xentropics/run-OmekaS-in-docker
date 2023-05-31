@@ -1,13 +1,13 @@
 ARG php_version=8
 ARG os_version=bullseye
-ARG omeka_version=3.1.2
+ARG omeka_version=4.0.1
 ARG config_profile=default_profile
 
 FROM php:$php_version-apache-$os_version
 
 LABEL maintainer="Jeroen Seeverens <j.seeverens@xentropics.nl>"
 LABEL description="Omeka S base image"
-LABEL version="0.2.0"
+LABEL version="0.3.0"
 
 # build deps and utils
 RUN apt-get update && \

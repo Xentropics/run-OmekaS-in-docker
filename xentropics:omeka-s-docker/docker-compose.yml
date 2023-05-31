@@ -4,21 +4,14 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
+      MYSQL_DATABASE: ${OMEKA_DB}
+      MYSQL_USER: ${OMEKA_DB_USER}
+      MYSQL_PASSWORD: ${OMEKA_DB_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: "1"
     volumes:
       - db:/var/lib/mysql
-  db_admin:
-    image: phpmyadmin/phpmyadmin:latest
-    restart: always
-    links:
-      - db:db
-    ports:
-      - "8080:80"
   omeka-s:
-    image: xentropics/omeka-s:0.1
+    image: xentropics/omeka-s:0.3.0
     links:
       - db:db
     restart: always
@@ -30,12 +23,12 @@ services:
         source: ./files/scripts/install-modules.sh
         target: /opt/imageboot/install-modules.sh
     ports:
-      - 80:80
+      - 9001:80
     environment:
       host: db
-      user: exampleuser
-      password: examplepass
-      dbname: exampledb
+      user: ${OMEKA_DB_USER}
+      password: ${OMEKA_DB_PASSWORD}
+      dbname: ${OMEKA_DB}
 volumes:
   db:
   omeka:
