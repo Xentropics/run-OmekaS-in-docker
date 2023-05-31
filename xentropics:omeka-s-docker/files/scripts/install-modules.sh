@@ -3,6 +3,8 @@ MODULE_COUNT=$(jq -r '.modules | length' /opt/imageboot/profile.json)
 echo "install-modules.sh : installing $MODULE_COUNT modules."
 
 echo "install-modules.sh : logging in"
+echo "$USER"
+ls -la /var/www/html
 OMEKA_MAIL=$(jq -r '.install_form."user[email]"' /opt/imageboot/profile.json)
 OMEKA_PASS=$(jq -r '.install_form."user[password-confirm][password]"' /opt/imageboot/profile.json)
 CSRF_TOKEN=$(curl -s -c "cookie.jar" -L http://localhost:80/login | tidy -quiet -asxml | xmlstarlet sel -t -v '//_:input[@name="loginform_csrf"]/@value')
