@@ -34,7 +34,8 @@ echo "dbname = $DB_NAME" >> /var/www/html/config/database.ini
 
 echo "bootstrap.sh : setting permissions for www-data"
 # just to be sure, someone might have altered the volume
-chown -R www-data:www-data /var/www/html/config/database.ini
+chown -R www-data:www-data /var/www/html/
+chmod -R 755 /var/www/html/files
 
 echo "bootstrap.sh : kind of checking if we already have an initialized database schema"
 # post install form if user table doesn't exist (that's what we ASUME when there's an error)
