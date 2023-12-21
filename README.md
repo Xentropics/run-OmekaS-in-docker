@@ -47,6 +47,8 @@ Not exactly up to documentation standards, but will have to do for now.
 
 - install-modules.sh : invoked from bootstrap.sh, installs modules: work in progess, no post-install config possible so far
 
+- install-ark-deps.sh : invoked from Dockerfile, installs dependencies for the ark plugin if you set the environment variable ```install_arkdeps``` to ```yes`` in the Dockerfile
+
 ### In xentropics:omeka-s-docker
 
 - docker-compose.yml : defines an ensemble of containers running Omeka, MariaDB and phpadmin as well as network connections and volumes for persistence
