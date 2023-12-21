@@ -19,6 +19,7 @@ else
     exit 1
 fi
 
+rm -rf /tmp/omeka
 for (( i=0; i<$MODULE_COUNT; i++ ))
     do     
         echo "install-modules.sh : reading module information"
@@ -37,13 +38,24 @@ for (( i=0; i<$MODULE_COUNT; i++ ))
                 curl -s -L -o /tmp/$MODULE_NAME.zip $MODULE_URL
     
                 echo "install-modules.sh : unzipping $MODULE_NAME.zip"
+                echo "install-modules.sh : removing old module"
+                rm -rf /var/www/html/modules/$MODULE_NAME
+                echo "install-modules.sh : installing $MODULE_NAME"
                 unzip -d /tmp/omeka/ /tmp/$MODULE_NAME.zip && mv /tmp/omeka/**/ /var/www/html/modules/$MODULE_NAME && rm -rf /tmp/$MODULE_NAME* && rm -rf /tmp/omeka
-
+                echo "install-modules.sh : enabling $MODULE_NAME"
                 MODULE_PAGE=$(curl -s -b "cookie.jar" -c "cookie.jar" -L http://localhost:80/admin/module | tidy -quiet -asxml) 
-                CSRF_TOKEN=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'install?id=$MODULE_NAME')]/_:input[@name='csrf']/@value")
-                ACTION=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'install?id=$MODULE_NAME')]/@action")
-                echo $CSRF_TOKEN
-                echo $ACTION
-                curl -L -s -b "cookie.jar" -c "cookie.jar" -X POST -H "X_CSRF-Token:${CSRF_TOKEN}" -F "csrf=${CSRF_TOKEN}" -F "id=" http://localhost:80${ACTION} | tidy -quiet -asxml | xmlstarlet sel -t -v "//_:ul[@class='messages']"
+                CSRF_TOKEN=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'install?id=$MODULE_NAME')]/_:input[@name='csrf']/@value") || true
+                UPDATE_TOKEN=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'upgrade?id=$MODULE_NAME')]/_:input[@name='csrf']/@value") || true 
+                : ${CSRF_TOKEN:=$UPDATE_TOKEN}
+                ACTION=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'install?id=$MODULE_NAME')]/@action") || true
+                UPDATE_ACTION=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'upgrade?id=$MODULE_NAME')]/@action") || true
+                : ${ACTION:=$UPDATE_ACTION}
+                if [ ! -z "$CSRF_TOKEN" ] 
+                then
+                    echo "install-modules.sh : found token, enabling $MODULE_NAME"
+                    curl -L -s -b "cookie.jar" -c "cookie.jar" -X POST -H "X_CSRF-Token:${CSRF_TOKEN}" -F "csrf=${CSRF_TOKEN}" -F "id=" http://localhost:80${ACTION} | tidy -quiet -asxml | xmlstarlet sel -t -v "//_:ul[@class='messages']"
+                else
+                    echo "install-modules.sh : error: no token found, skipping activation of $MODULE_NAME"
+                fi
         fi
     done
