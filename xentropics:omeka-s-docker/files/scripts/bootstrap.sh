@@ -51,4 +51,12 @@ if ! mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_NAME -N -e "SELECT
     source /opt/imageboot/install-modules.sh
     echo "bootstrap.sh : done, I hope, so stopping apache"
     service apache2 stop
+else
+    echo "bootstrap.sh : yep, so starting apache to install modules"
+    service apache2 start
+    echo "bootstrap.sh : running install-modules.sh"
+    source /opt/imageboot/install-modules.sh
+    echo "bootstrap.sh : done, I hope, so stopping apache"
+    service apache2 stop
 fi
+
