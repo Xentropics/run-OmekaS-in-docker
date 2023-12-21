@@ -1,13 +1,16 @@
-ARG php_version=8
-ARG os_version=bullseye
-ARG omeka_version=4.0.1
+ARG php_version=8.2
+ARG os_version=bookworm
+ARG omeka_version=4.0.4
 ARG config_profile=default_profile
 
 FROM php:$php_version-apache-$os_version
 
+ENV install_arkdeps=no
+ENV berkeleydb_lib=libdb5.3++-dev
+
 LABEL maintainer="Jeroen Seeverens <j.seeverens@xentropics.nl>"
 LABEL description="Omeka S base image"
-LABEL version="0.3.0"
+LABEL version=$omeka_version
 
 # build deps and utils
 RUN apt-get update && \
@@ -49,7 +52,11 @@ COPY files/etc/${config_profile}.json /opt/imageboot/profile.json
 COPY files/scripts/entrypoint.sh /opt/imageboot/entrypoint.sh
 COPY files/scripts/bootstrap.sh /opt/imageboot/bootstrap.sh
 COPY files/scripts/install-modules.sh /opt/imageboot/install-modules.sh
+COPY files/scripts/install-ark-deps.sh /opt/imageboot/install-ark-deps.sh
 RUN chmod 755 /opt/imageboot/*.sh
+
+# install ARK dependencies
+RUN /opt/imageboot/install-ark-deps.sh
 
 # run
 EXPOSE 80
