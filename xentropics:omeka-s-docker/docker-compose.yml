@@ -11,7 +11,7 @@ services:
     volumes:
       - db:/var/lib/mysql
   omeka-s:
-    image: xentropics/omeka-s:0.3.0
+    image: xentropics/omeka-s:${tag}
     links:
       - db:db
     restart: always
@@ -24,11 +24,6 @@ services:
         target: /opt/imageboot/install-modules.sh
     ports:
       - 9001:80
-    environment:
-      host: db
-      user: ${OMEKA_DB_USER}
-      password: ${OMEKA_DB_PASSWORD}
-      dbname: ${OMEKA_DB}
 volumes:
   db:
   omeka:
