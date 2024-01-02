@@ -5,8 +5,8 @@ ARG config_profile=default_profile
 
 FROM php:$php_version-apache-$os_version
 
-ENV install_arkdeps=no
-ENV berkeleydb_lib=libdb5.3++-dev
+ENV OMEKA_INSTALL_ARKDEPS=no
+ENV OMEKA_BERKELEYDB_LIB=libdb5.3++-dev
 
 LABEL maintainer="Jeroen Seeverens <j.seeverens@xentropics.nl>"
 LABEL description="Omeka S base image"
@@ -58,6 +58,13 @@ RUN chmod 755 /opt/imageboot/*.sh
 # install ARK dependencies
 RUN /opt/imageboot/install-ark-deps.sh
 
+# run as non-root user
+RUN useradd -u 1978 omeka -G www-data
+WORKDIR /opt/imageboot
+RUN chown -R omeka:omeka /opt/imageboot
+RUN chmod -R 775 /var/www/html/config
+RUN
+USER omeka
 # run
 EXPOSE 80
 ENTRYPOINT [ "/opt/imageboot/entrypoint.sh" ]

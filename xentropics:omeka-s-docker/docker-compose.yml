@@ -12,6 +12,7 @@ services:
       - db:/var/lib/mysql
   omeka-s:
     image: xentropics/omeka-s:${tag}
+    user: "1978:1978"
     links:
       - db:db
     restart: always
@@ -19,9 +20,6 @@ services:
       - db
     volumes:
       - omeka:/var/www/html/files
-      - type: bind
-        source: ./files/scripts/install-modules.sh
-        target: /opt/imageboot/install-modules.sh
     ports:
       - 9001:80
 volumes:
