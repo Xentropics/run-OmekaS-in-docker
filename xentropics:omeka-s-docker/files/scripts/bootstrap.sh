@@ -47,6 +47,7 @@ if ! mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_NAME -N -e "SELECT
         curl -X POST http://localhost/install \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -d "${FORM_DATA}"
+    source /opt/imageboot/install-ark-deps.sh
     echo "bootstrap.sh : running install-modules.sh"
     source /opt/imageboot/install-modules.sh
     echo "bootstrap.sh : done, I hope, so stopping apache"
@@ -54,6 +55,7 @@ if ! mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_NAME -N -e "SELECT
 else
     echo "bootstrap.sh : yep, so starting apache to install modules"
     service apache2 start
+    source /opt/imageboot/install-ark-deps.sh
     echo "bootstrap.sh : running install-modules.sh"
     source /opt/imageboot/install-modules.sh
     echo "bootstrap.sh : done, I hope, so stopping apache"
