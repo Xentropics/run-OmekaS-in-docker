@@ -2,7 +2,7 @@
 
 This repository contains scripts and configuration files to quickly set up an Omeka-S instance on Docker. Omeka-S is a popular open-source web publishing platform for sharing digital collections and creating media-rich online exhibits. Running Omeka-S on Docker allows for easy setup, scalability, and distribution.
 
-**Version:** 0.4.1
+**Version:** 0.5.0
 
 **Disclaimer:** This project is currently in development and not recommended for production use. It is a proof of concept and may not adhere to all best practices.
 
