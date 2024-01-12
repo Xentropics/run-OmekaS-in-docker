@@ -1,7 +1,7 @@
 ARG php_version=8.2
 ARG os_version=bookworm
 ARG omeka_version=4.0.4
-ARG config_profile=default_profile
+ARG config_profile=default
 
 FROM php:$php_version-apache-$os_version
 
@@ -49,7 +49,7 @@ RUN chown -R www-data:www-data /var/www/html/
 
 # server init config
 ARG config_profile
-COPY files/etc/${config_profile}.json /opt/imageboot/profile.json
+COPY files/etc/profiles/${config_profile}.json /opt/imageboot/profile.json
 COPY files/scripts/entrypoint.sh /opt/imageboot/entrypoint.sh
 COPY files/scripts/bootstrap.sh /opt/imageboot/bootstrap.sh
 COPY files/scripts/install-modules.sh /opt/imageboot/install-modules.sh
