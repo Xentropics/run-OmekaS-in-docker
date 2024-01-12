@@ -47,6 +47,7 @@ if ! mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_NAME -N -e "SELECT
         curl -X POST http://localhost/install \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -d "${FORM_DATA}"
+        
     # install berkely db and noid. Script will check if this has been requested itself
     echo "bootstrap.sh : running install-ark-deps.sh (first boot only)"
     source /opt/imageboot/install-ark-deps.sh
