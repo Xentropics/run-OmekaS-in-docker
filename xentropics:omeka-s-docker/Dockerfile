@@ -10,7 +10,7 @@ ENV skip_modules=yes
 
 LABEL maintainer="Jeroen Seeverens <j.seeverens@xentropics.nl>"
 LABEL description="Omeka S base image"
-LABEL version=$omeka_version
+LABEL version=0.5.0
 
 # build deps and utils
 RUN apt-get update && \
