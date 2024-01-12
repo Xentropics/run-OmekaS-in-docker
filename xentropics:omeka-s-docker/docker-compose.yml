@@ -19,9 +19,10 @@ services:
       - db
     volumes:
       - omeka:/var/www/html/files
-      - type: bind
-        source: ./files/scripts/install-modules.sh
-        target: /opt/imageboot/install-modules.sh
+    environment:
+      install_arkdeps: ${OMEKA_INSTALL_ARKDEPS}
+      berkeleydb_lib: ${OMEKA_BERKELEYDB_LIB}
+      skip_modules: ${OMEKA_SKIP_MODULES}
     ports:
       - 9001:80
 volumes:
