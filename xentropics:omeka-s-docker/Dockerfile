@@ -1,7 +1,6 @@
 ARG php_version=8.2
 ARG os_version=bookworm
 ARG omeka_version=4.0.4
-ARG config_profile=default
 
 FROM php:$php_version-apache-$os_version
 
@@ -27,11 +26,11 @@ RUN apt-get update && \
 # deps
 RUN apt-get -y install --no-install-recommends \
     imagemagick
-COPY ./files/etc/imagemagick-policy.xml /etc/ImageMagick/policy.xml
+COPY profiles/template/etc/imagemagick-policy.xml /etc/ImageMagick/policy.xml
 
 # php deps and config
 RUN docker-php-ext-install -j$(nproc) pdo_mysql mysqli
-COPY ./files/etc/php.ini /usr/local/etc/php/
+COPY profiles/template/etc/php.ini /usr/local/etc/php/
 
 # download Omeka
 ARG omeka_version
@@ -41,22 +40,21 @@ RUN unzip -d /tmp/ /tmp/omeka-s.zip && mv /tmp/omeka-s/* /var/www/html/ && rm -r
 RUN chmod -R +w /var/www/html/files
 VOLUME [ "/var/www/html/files" ]
 
+
 # apache config
 ADD https://raw.githubusercontent.com/omeka/omeka-s/develop/.htaccess.dist /var/www/html/.htaccess
 RUN a2enmod rewrite
-COPY ./files/etc/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+COPY profiles/template/etc/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 RUN chown -R www-data:www-data /var/www/html/
 
 # server init config
-COPY files/scripts/entrypoint.sh /opt/imageboot/entrypoint.sh
-COPY files/scripts/bootstrap.sh /opt/imageboot/bootstrap.sh
-COPY files/scripts/install-modules.sh /opt/imageboot/install-modules.sh
-COPY files/scripts/install-ark-deps.sh /opt/imageboot/install-ark-deps.sh
+COPY scripts/entrypoint.sh /opt/imageboot/entrypoint.sh
+COPY scripts/bootstrap.sh /opt/imageboot/bootstrap.sh
+COPY scripts/install-modules.sh /opt/imageboot/install-modules.sh
+COPY scripts/install-ark-deps.sh /opt/imageboot/install-ark-deps.sh
 RUN chmod 755 /opt/imageboot/*.sh
 
-# install ARK dependencies
-RUN /opt/imageboot/install-ark-deps.sh
-
 # run
+VOLUME [ "/var/log" ]
 EXPOSE 80
 ENTRYPOINT [ "/opt/imageboot/entrypoint.sh" ]

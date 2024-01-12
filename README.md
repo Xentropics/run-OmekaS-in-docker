@@ -1,60 +1,26 @@
 # Run Omeka-S on Docker
 
-Spin up an Omeka-S instance in no-time, including selected plugins.
+This repository contains scripts and configuration files to quickly set up an Omeka-S instance on Docker. Omeka-S is a popular open-source web publishing platform for sharing digital collections and creating media-rich online exhibits. Running Omeka-S on Docker allows for easy setup, scalability, and distribution.
 
-Version 0.2.0. Work in progress... use at your own risk, not recommended for production use. Doesn't follow any standards or best practices at the moment, just a proof of concept that might grow up one day.
+**Version:** 0.4.1
 
-Created by Jeroen Seeverens @xentropics
-Inspired by [https://github.com/klokantech/omeka-s-docker]
+**Disclaimer:** This project is currently in development and not recommended for production use. It is a proof of concept and may not adhere to all best practices.
 
-## What am I looking at?
+**Creator:** [Jeroen Seeverens](https://github.com/xentropics)
 
-A bunch of scripts and config files that
+**Inspiration:** [https://github.com/klokantech/omeka-s-docker]
 
-- install and run (fingers crossed) Omeka S in a docker container,
-- use MariaDB as a backend (+phpAdmin),
-- initialize Omeka during the first run,
-- install modules during the first run,
-- optionally purge all images, but keep the data, etc.
+## Contents of this Repository
+
+This repository contains scripts and configuration files that:
+
+- install and run Omeka S in a Docker container.
+- use Mysql 8 as a backend, and PHP 8.2 
+- initialize Omeka during the first run, setting up basic configurations and install selected modules.
+
+More detailed instructions on how to use these scripts and configuration files will be provided below.
 
 ## How to use this?
 
-1. Copy xentropics:omeka-s-docker/files/etc/profile_template.json to xentropics:omeka-s-docker/files/etc/default_profile.json
-2. Edit xentropics:omeka-s-docker/files/etc/default_profile.json to match your preferences (or set some passwords at least)
-3. Edit docker-compose.yml to match the credentials you made up in xentropics:omeka-s-docker/files/etc/default_profile.json
-4. Optional: edit the arguments at the top of the Dockerfile
-5. Run build_run.sh and sit back and relax (first install Docker btw...)
-
-## What are these files for?
-
-Not exactly up to documentation standards, but will have to do for now.
-
-### In xentropics:omeka-s-docker/files/etc
-
-- apache-config.conf : apache config, no SSL right now, but we could add that later, not intended for production use
-
-- imagemagick-policy.xml : not sure why we need this, but apparantly we do
-
-- php.ini : php-settings mainly because it allows big files to be uploaded
-
-- profile_template.json : user settings template. In the future should be possible to define multiple profiles for your very own Omeka-S farm
-
-### In xentropics:omeka-s-docker/files/scripts
-
-- bootstrap.sh : will run when the container is booted the first time. Installs and initialized everything. Skips database init if there is already an initialized schema, so you can bring your own data to a fresh instance with different settings (might break of course if the settings deviate to much)
-
-- entrypoint.sh : entrypoint referenced in Dockerfile. Checks if this is the first run. If so, runs bootstrap.sh. If not, starts apache in the foreground right away
-
-- install-modules.sh : invoked from bootstrap.sh, installs modules: work in progess, no post-install config possible so far
-
-- install-ark-deps.sh : invoked from Dockerfile, installs dependencies for the ark plugin if you set the environment variable ```install_arkdeps``` to ```yes`` in the Dockerfile
-
-### In xentropics:omeka-s-docker
-
-- docker-compose.yml : defines an ensemble of containers running Omeka, MariaDB and phpadmin as well as network connections and volumes for persistence
-
-- Dockerfile : defines the omeka-s-image, based on the official php+apache image
-
-- build_run.sh : builds the omeka image, removes the old dangling containers and runs the compose file
-
+Stay tuned for more information.
 
