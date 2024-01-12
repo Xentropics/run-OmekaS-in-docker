@@ -22,17 +22,15 @@
       "name": "IiifServer",
       "version": "3.6.6.6",
       "zipUrl": "https://github.com/Daniel-KM/Omeka-S-module-IiifServer/releases/download/${version}/IiifServer-${version}.zip",
-      "install": true,
-      "config": false,
-      "configForm": { "url": "", "formData": [] }
+      "install": true
     },
     {
       "name": "ImageServer",
       "version": "3.6.10.3",
       "zipUrl": "https://github.com/Daniel-KM/Omeka-S-module-ImageServer/releases/download/${version}/ImageServer-${version}.zip",
       "install": true,
-      "config": false,
-      "configForm": { "url": "", "formData": [] }
+      "preActivate": ["echo foo", "echo bar"],
+      "postInstall": ["echo 'done!'"]
     }
   ]
 }
