@@ -15,4 +15,4 @@ docker build . --tag=xentropics/omeka-s:$par_image_tag $par_omeka_s_version $par
 docker container prune -f
 export tag=$par_image_tag
 export OMEKA_SKIP_MODULES=$skip_modules
-docker-compose up
+docker-compose --project-name=$par_config_profile up
