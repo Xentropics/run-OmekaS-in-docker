@@ -1,3 +1,3 @@
-xentropics:omeka-s-docker/files/etc/profiles/*.json
-xentropics:omeka-s-docker/files/etc/profiles/*.env
+xentropics:omeka-s-docker/files/etc/profiles/*/*
+!xentropics:omeka-s-docker/files/etc/profiles/template/*
 xentropics:omeka-s-docker/.env
