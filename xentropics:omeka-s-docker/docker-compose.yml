@@ -19,6 +19,9 @@ services:
       - db
     volumes:
       - omeka:/var/www/html/files
+      - type: bind
+        source: files/etc/profiles/${OMEKA_PROFILE}.json
+        target: /opt/imageboot/profile.json
     environment:
       install_arkdeps: ${OMEKA_INSTALL_ARKDEPS}
       berkeleydb_lib: ${OMEKA_BERKELEYDB_LIB}
