@@ -7,6 +7,7 @@ FROM php:$php_version-apache-$os_version
 
 ENV install_arkdeps=no
 ENV berkeleydb_lib=libdb5.3++-dev
+ENV skip_modules=yes
 
 LABEL maintainer="Jeroen Seeverens <j.seeverens@xentropics.nl>"
 LABEL description="Omeka S base image"

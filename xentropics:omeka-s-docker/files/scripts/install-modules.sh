@@ -42,6 +42,13 @@ for (( i=0; i<$MODULE_COUNT; i++ ))
                 rm -rf /var/www/html/modules/$MODULE_NAME
                 echo "install-modules.sh : installing $MODULE_NAME"
                 unzip -d /tmp/omeka/ /tmp/$MODULE_NAME.zip && mv /tmp/omeka/**/ /var/www/html/modules/$MODULE_NAME && rm -rf /tmp/$MODULE_NAME* && rm -rf /tmp/omeka
+                PREACTIVATECOUNT=$(eval "jq -r '.modules[${i}].preActivate | length' /opt/imageboot/profile.json")
+                for (( j=0; j<$PREACTIVATECOUNT; j++ ))
+                do
+                    echo "install-modules.sh : running pre-activate script #${j+1}"
+                    PREACTIVATECMD=$(eval "jq -r '.modules[${i}].preActivate[${j}]' /opt/imageboot/profile.json")
+                    eval "$PREACTIVATECMD"
+                done
                 echo "install-modules.sh : enabling $MODULE_NAME"
                 MODULE_PAGE=$(curl -s -b "cookie.jar" -c "cookie.jar" -L http://localhost:80/admin/module | tidy -quiet -asxml) 
                 CSRF_TOKEN=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'install?id=$MODULE_NAME')]/_:input[@name='csrf']/@value") || true
@@ -57,5 +64,12 @@ for (( i=0; i<$MODULE_COUNT; i++ ))
                 else
                     echo "install-modules.sh : error: no token found, skipping activation of $MODULE_NAME"
                 fi
+                POSTINSTALLCOUNT=$(eval "jq -r '.modules[${i}].postInstall | length' /opt/imageboot/profile.json")
+                for (( j=0; j<$POSTINSTALLCOUNT; j++ ))
+                do
+                    echo "install-modules.sh : running postInstall script #${j+1}"
+                    POSTINSTALLCMD=$(eval "jq -r '.modules[${i}].postInstall[${j}]' /opt/imageboot/profile.json")
+                    eval "$POSTINSTALLCMD"
+                done
         fi
     done
