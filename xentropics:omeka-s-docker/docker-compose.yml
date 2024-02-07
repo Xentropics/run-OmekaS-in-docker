@@ -21,19 +21,19 @@ services:
       - omeka:/var/www/html/files
       - log:/var/log
       - type: bind
-        source: profiles/${OMEKA_PROFILE}/profile.json
+        source: ./profiles/${OMEKA_PROFILE}/profile.json
         target: /opt/imageboot/profile.json
         read_only: true
       - type: bind
-        source: profiles/${OMEKA_PROFILE}/etc/apache-config.conf
+        source: ./profiles/${OMEKA_PROFILE}/etc/apache-config.conf
         target: /etc/apache2/sites-enabled/000-default.conf
         read_only: true
       - type: bind
-        source: profiles/${OMEKA_PROFILE}/etc/php.ini
+        source: ./profiles/${OMEKA_PROFILE}/etc/php.ini
         target: /usr/local/etc/php/php.ini
         read_only: true
       - type: bind
-        source: profiles/${OMEKA_PROFILE}/etc/imagemagick-policy.xml
+        source: ./profiles/${OMEKA_PROFILE}/etc/imagemagick-policy.xml
         target: /etc/ImageMagick/policy.xml
         read_only: true
     environment:
