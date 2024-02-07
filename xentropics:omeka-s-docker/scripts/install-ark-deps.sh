@@ -1,6 +1,4 @@
 #!/bin/bash
-echo "install-ark-deps.sh : installing ark deps"
-
 if [[ "$install_arkdeps" == "yes" ]]
 then
     echo "install-ark-deps.sh : installing ark deps"
@@ -9,8 +7,15 @@ else
     return
 fi
 apt-get update && apt-get install -y $berkeleydb_lib
+arch=$(uname -m)
 ln -s -f /usr/include /opt/include
-ln -s -f /usr/lib/aarch64-linux-gnu/ /opt/lib
+if [[ $arch == "arm64" ]]
+then
+    ln -s -f /usr/lib/aarch64-linux-gnu/ /opt/lib
+else
+    ln -s -f /usr/lib64-/ /opt/lib
+fi
+
 docker-php-ext-configure dba --with-db4=/opt
 docker-php-ext-install dba
 docker-php-ext-install bcmath
