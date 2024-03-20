@@ -14,6 +14,7 @@ services:
     image: xentropics/omeka-s:${OMEKA_IMAGE_TAG}
     links:
       - db:db
+      - solr:solr
     restart: always
     depends_on:
       - db
@@ -42,7 +43,16 @@ services:
       skip_modules: ${OMEKA_SKIP_MODULES}
     ports:
       - ${OMEKA_PORT}:80
+  solr:
+    image: solr:latest
+    restart: always
+    volumes:
+      - solr:/var/solr
+    command: solr-precreate omeka
+    ports:
+      - 8983:8983
 volumes:
   db:
   omeka:
   log:
+  solr:
