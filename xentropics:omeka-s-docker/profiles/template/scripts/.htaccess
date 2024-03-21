@@ -1,0 +1,5 @@
+RewriteEngine On
+
+RewriteBase /scripts/
+# Match the request in the form of /scripts/name/action
+RewriteRule ^([a-zA-Z0-9_-]+)/*([a-zA-Z0-9_-]*)$ $1.php?action_par=$2 [L,QSA]
