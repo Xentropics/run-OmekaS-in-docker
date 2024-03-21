@@ -40,9 +40,8 @@ RUN unzip -d /tmp/ /tmp/omeka-s.zip && mv /tmp/omeka-s/* /var/www/html/ && rm -r
 RUN chmod -R +w /var/www/html/files
 VOLUME [ "/var/www/html/files" ]
 
-
 # apache config
-ADD https://raw.githubusercontent.com/omeka/omeka-s/develop/.htaccess.dist /var/www/html/.htaccess
+COPY profiles/template/etc/.htaccess /var/www/html/.htaccess
 RUN a2enmod rewrite
 COPY profiles/template/etc/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 RUN chown -R www-data:www-data /var/www/html/
