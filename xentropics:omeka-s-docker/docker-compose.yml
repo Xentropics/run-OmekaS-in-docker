@@ -36,6 +36,20 @@ services:
         source: ./profiles/${OMEKA_PROFILE}/etc/imagemagick-policy.xml
         target: /etc/ImageMagick/policy.xml
         read_only: true
+      - type: bind
+        source: ./profiles/${OMEKA_PROFILE}/etc/local.config.php
+        target: /etc/local.config.php
+        read_only: true
+      - type: bind
+        source: ./profiles/${OMEKA_PROFILE}/etc/.htaccess
+        target: /var/www/html/.htaccess
+        read_only: true
+      - type: bind
+        source: ./profiles/${OMEKA_PROFILE}/scripts
+        target: /var/www/scripts
+        read_only: true
+        
+
     environment:
       install_arkdeps: ${OMEKA_INSTALL_ARKDEPS}
       berkeleydb_lib: ${OMEKA_BERKELEYDB_LIB}
