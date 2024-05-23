@@ -63,8 +63,8 @@ services:
     volumes:
       - solr:/var/solr
     command: solr-precreate omeka
-    ports:
-      - 8983:8983
+    expose:
+      - 8983
 volumes:
   db:
   omeka:
