@@ -49,8 +49,10 @@ services:
         source: ./profiles/${OMEKA_PROFILE}/scripts
         target: /var/www/scripts
         read_only: true
-        
-
+      - type: bind
+        source: ./profiles/${OMEKA_PROFILE}/dev_module
+        target: /var/www/html/modules/MyModule
+        read_only: false
     environment:
       install_arkdeps: ${OMEKA_INSTALL_ARKDEPS}
       berkeleydb_lib: ${OMEKA_BERKELEYDB_LIB}
