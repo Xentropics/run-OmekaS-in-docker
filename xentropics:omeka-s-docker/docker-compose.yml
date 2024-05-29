@@ -51,7 +51,7 @@ services:
         read_only: true
       - type: bind
         source: ./profiles/${OMEKA_PROFILE}/dev_module
-        target: /var/www/html/modules/MyModule
+        target: /var/www/html/modules/LAPBlocks
         read_only: false
     environment:
       install_arkdeps: ${OMEKA_INSTALL_ARKDEPS}
