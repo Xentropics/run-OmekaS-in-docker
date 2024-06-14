@@ -39,7 +39,7 @@ services:
         read_only: true
       - type: bind
         source: ./profiles/${OMEKA_PROFILE}/etc/local.config.php
-        target: /etc/local.config.php
+        target: /var/www/html/config/local.config.php
         read_only: true
       - type: bind
         source: ./profiles/${OMEKA_PROFILE}/etc/.htaccess
@@ -50,8 +50,12 @@ services:
         target: /var/www/scripts
         read_only: true
       - type: bind
-        source: ./profiles/${OMEKA_PROFILE}/dev_module
+        source: ./profiles/${OMEKA_PROFILE}/dev_modules/LAPBlocks
         target: /var/www/html/modules/LAPBlocks
+        read_only: false
+      - type: bind
+        source: ./profiles/${OMEKA_PROFILE}/dev_modules/Treeshaker
+        target: /var/www/html/modules/Treeshaker
         read_only: false
     environment:
       install_arkdeps: ${OMEKA_INSTALL_ARKDEPS}
