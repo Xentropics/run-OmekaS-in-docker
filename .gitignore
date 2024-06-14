@@ -1,4 +1,6 @@
 xentropics:omeka-s-docker/profiles/*/*
 !xentropics:omeka-s-docker/profiles/template/*
 
-
+**/vendor/
+**/dev_modules/arch/
+**/themes/
