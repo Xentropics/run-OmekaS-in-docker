@@ -45,7 +45,7 @@ if ! mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_NAME -N -e "SELECT
     service apache2 start
         echo "bootstrap.sh : posting data to install form"
         FORM_DATA=$(jq -r '[.install_form | keys_unsorted[] as $k | ($k|@uri)+"="+(.[$k]|@uri)] | join("&")' /opt/imageboot/profile.json)
-        curl -X POST http://localhost/install \
+        curl -X POST http://127.0.0.1:8888/install \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -d "${FORM_DATA}"
 
