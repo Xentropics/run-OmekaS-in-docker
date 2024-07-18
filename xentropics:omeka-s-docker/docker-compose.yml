@@ -50,19 +50,23 @@ services:
         target: /var/www/scripts
         read_only: true
       - type: bind
-        source: ./profiles/${OMEKA_PROFILE}/dev_modules/LAPBlocks
-        target: /var/www/html/modules/LAPBlocks
-        read_only: false
-      - type: bind
-        source: ./profiles/${OMEKA_PROFILE}/dev_modules/Treeshaker
-        target: /var/www/html/modules/Treeshaker
-        read_only: false
+        source: ./profiles/${OMEKA_PROFILE}/etc/ports.conf
+        target: /etc/apache2/ports.conf
+        read_only: true
+#      - type: bind
+#        source: ./profiles/${OMEKA_PROFILE}/dev_modules/LAPBlocks
+#       target: /var/www/html/modules/LAPBlocks
+#        read_only: false
+#      - type: bind
+#        source: ./profiles/${OMEKA_PROFILE}/dev_modules/Treeshaker
+#        target: /var/www/html/modules/Treeshaker
+#        read_only: false
     environment:
       install_arkdeps: ${OMEKA_INSTALL_ARKDEPS}
       berkeleydb_lib: ${OMEKA_BERKELEYDB_LIB}
       skip_modules: ${OMEKA_SKIP_MODULES}
     ports:
-      - ${OMEKA_PORT}:80
+      - ${OMEKA_PORT}:8888
   solr:
     image: solr:latest
     restart: always

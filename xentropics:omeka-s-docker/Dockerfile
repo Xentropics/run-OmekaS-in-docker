@@ -1,6 +1,6 @@
 ARG php_version=8.2
 ARG os_version=bookworm
-ARG omeka_version=4.0.4
+ARG omeka_version=4.1.0
 
 FROM php:$php_version-apache-$os_version
 
@@ -55,5 +55,5 @@ RUN chmod 755 /opt/imageboot/*.sh
 
 # run
 VOLUME [ "/var/log" ]
-EXPOSE 80
+EXPOSE 8888
 ENTRYPOINT [ "/opt/imageboot/entrypoint.sh" ]
