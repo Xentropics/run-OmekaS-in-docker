@@ -7,8 +7,10 @@ echo "$USER"
 ls -la /var/www/html
 OMEKA_MAIL=$(jq -r '.install_form."user[email]"' /opt/imageboot/profile.json)
 OMEKA_PASS=$(jq -r '.install_form."user[password-confirm][password]"' /opt/imageboot/profile.json)
-CSRF_TOKEN=$(curl -s -c "cookie.jar" -L http://localhost:80/login | tidy -quiet -asxml | xmlstarlet sel -t -v '//_:input[@name="loginform_csrf"]/@value')
-OK=$(curl -i -L -s -c "cookie.jar" -b "cookie.jar" -H "X_CSRF-Token:${CSRF_TOKEN}" -X POST -F "loginform_csrf=${CSRF_TOKEN}" -F "email=${OMEKA_MAIL}" -F "password=${OMEKA_PASS}" http://localhost:80/login | grep "^Location: /admin")
+set +e
+CSRF_TOKEN=$(curl -s -c "cookie.jar" -L http://127.0.0.1:8888/login | tidy -quiet -asxml | xmlstarlet sel -t -v '//_:input[@name="loginform_csrf"]/@value')
+echo "Token: $CSRF_TOKEN"
+OK=$(curl -i -L -s -c "cookie.jar" -b "cookie.jar" -H "X_CSRF-Token:${CSRF_TOKEN}" -X POST -F "loginform_csrf=${CSRF_TOKEN}" -F "email=${OMEKA_MAIL}" -F "password=${OMEKA_PASS}" http://127.0.0.1:8888/login | grep "^Location: /admin")
 
 echo $OK
 if [[ "$OK" == "Location: /admin"* ]]
@@ -50,7 +52,7 @@ for (( i=0; i<$MODULE_COUNT; i++ ))
                     eval "$PREACTIVATECMD"
                 done
                 echo "install-modules.sh : enabling $MODULE_NAME"
-                MODULE_PAGE=$(curl -s -b "cookie.jar" -c "cookie.jar" -L http://localhost:80/admin/module | tidy -quiet -asxml) 
+                MODULE_PAGE=$(curl -s -b "cookie.jar" -c "cookie.jar" -L http://127.0.0.1:8888/admin/module | tidy -quiet -asxml) 
                 CSRF_TOKEN=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'install?id=$MODULE_NAME')]/_:input[@name='csrf']/@value") || true
                 UPDATE_TOKEN=$(echo $MODULE_PAGE | xmlstarlet sel -t -v "//_:form[contains(@action,'upgrade?id=$MODULE_NAME')]/_:input[@name='csrf']/@value") || true 
                 : ${CSRF_TOKEN:=$UPDATE_TOKEN}
@@ -60,7 +62,7 @@ for (( i=0; i<$MODULE_COUNT; i++ ))
                 if [ ! -z "$CSRF_TOKEN" ] 
                 then
                     echo "install-modules.sh : found token, enabling $MODULE_NAME"
-                    curl -L -s -b "cookie.jar" -c "cookie.jar" -X POST -H "X_CSRF-Token:${CSRF_TOKEN}" -F "csrf=${CSRF_TOKEN}" -F "id=" http://localhost:80${ACTION} | tidy -quiet -asxml | xmlstarlet sel -t -v "//_:ul[@class='messages']"
+                    curl -L -s -b "cookie.jar" -c "cookie.jar" -X POST -H "X_CSRF-Token:${CSRF_TOKEN}" -F "csrf=${CSRF_TOKEN}" -F "id=" http://127.0.0.1:8888${ACTION} | tidy -quiet -asxml | xmlstarlet sel -t -v "//_:ul[@class='messages']"
                 else
                     echo "install-modules.sh : error: no token found, skipping activation of $MODULE_NAME"
                 fi
@@ -73,3 +75,4 @@ for (( i=0; i<$MODULE_COUNT; i++ ))
                 done
         fi
     done
+set -e
