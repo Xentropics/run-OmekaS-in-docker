@@ -1,11 +1,11 @@
 #!/bin/bash
-# 2022 by Jeroen Seeverens, Xentropics (CC BY)
+# 2022-2024 by Jeroen Seeverens, Xentropics (CC BY)
 
-# exit on error so docker image will terminate
+# exit on error so container will terminate
 set -e
 
 main () {
-   # run apache in the foreground: crash will be detected by docker host
+   # run apache in the foreground: crash will be detected by container host
    echo "entrypoint.sh : starting Apache"
    apache2-foreground
 }

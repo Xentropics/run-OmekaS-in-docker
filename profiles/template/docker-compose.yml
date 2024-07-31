@@ -1,0 +1,11 @@
+services:
+  solr:
+    image: solr:latest
+    restart: always
+    volumes:
+      - solr:/var/solr
+    command: solr-precreate omeka
+    expose:
+      - 8983
+volumes:
+  solr:
