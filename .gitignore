@@ -4,3 +4,4 @@ xentropics:omeka-s-docker/profiles/*/*
 **/vendor/
 **/dev_modules/arch/
 **/themes/
+xentropics:omeka-s-docker/profiles/development
