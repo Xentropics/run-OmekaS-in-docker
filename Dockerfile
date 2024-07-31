@@ -38,7 +38,6 @@ RUN rm -rf /var/www/html/*
 ADD https://github.com/omeka/omeka-s/releases/download/v${omeka_version}/omeka-s-${omeka_version}.zip /tmp/omeka-s.zip
 RUN unzip -d /tmp/ /tmp/omeka-s.zip && mv /tmp/omeka-s/* /var/www/html/ && rm -rf /tmp/omeka-s*
 RUN chmod -R +w /var/www/html/files
-VOLUME [ "/var/www/html/files" ]
 
 # apache config
 COPY profiles/template/etc/.htaccess /var/www/html/.htaccess
@@ -54,6 +53,5 @@ COPY scripts/install-ark-deps.sh /opt/imageboot/install-ark-deps.sh
 RUN chmod 755 /opt/imageboot/*.sh
 
 # run
-VOLUME [ "/var/log" ]
 EXPOSE 8888
 ENTRYPOINT [ "/opt/imageboot/entrypoint.sh" ]
