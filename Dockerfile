@@ -15,7 +15,6 @@ LABEL version=${OMEKA_IMAGE_TAG}
 # build deps and utils
 RUN apt-get update && \
     apt-get -y install --no-install-recommends \
-    git-core \
     unzip \
     mc \
     jq \
