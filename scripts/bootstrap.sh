@@ -24,15 +24,21 @@ echo "host = $DB_HOST" >>/var/www/html/config/database.ini
 echo "port = $DB_PORT" >>/var/www/html/config/database.ini
 echo "dbname = $DB_NAME" >>/var/www/html/config/database.ini
 
+echo "bootstrap.sh : starting apache"
+service apache2 start
+
 # Check if we need to fill in the post install form
 echo "bootstrap.sh : heurtistically checking if we already have an initialized database schema"
 # post install form if user table doesn't exist (that's what we ASUME when there's an error)
 # @TODO: deal with possible schema migrations
 if ! mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_NAME -N -e "SELECT role FROM user LIMIT 1;"; then
-    echo "bootstrap.sh : nope, starting apache to fill in post install form"
-    service apache2 start
+    echo "bootstrap.sh : database schema not initialized, so posting data to install form"
     echo "bootstrap.sh : posting data to install form"
-    FORM_DATA=$(jq -r '[.install_form | keys_unsorted[] as $k | ($k|@uri)+"="+(.[$k]|@uri)] | join("&")' /opt/imageboot/profile.json)
+    #FORM_DATA=$(jq -r '[.install_form | keys_unsorted[] as $k | ($k|@uri)+"="+(.[$k]|@uri)] | join("&")' /opt/imageboot/profile.json)
+    JSON_DATA=$(jq --arg pwd "$OMEKA_GLOBAL_ADMIN_PWD" '.install_form |= with_entries(if .value == "<OMEKA_PASS>" then .value = $pwd else . end)' /opt/imageboot/profile.json)
+    FORM_DATA=$(echo "$JSON_DATA" | jq -r '[.install_form | keys_unsorted[] as $k | ($k|@uri)+"="+(.[$k]|@uri)] | join("&")')
+    echo "JSON_DATA: $JSON_DATA"
+    echo "FORM_DATA: $FORM_DATA"
     curl -X POST http://127.0.0.1:8888/install \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -d "${FORM_DATA}"

@@ -14,7 +14,6 @@ services:
     image: xentropics/omeka-s:${OMEKA_IMAGE_TAG}
     links:
       - db:db
-      - solr:solr
     restart: always
     depends_on:
       - db
@@ -62,6 +61,7 @@ services:
       DB_PASS: ${OMEKA_DB_PASSWORD}
       DB_HOST: db
       DB_PORT: ${OMEKA_DB_PORT}
+      OMEKA_GLOBAL_ADMIN_PWD: ${OMEKA_GLOBAL_ADMIN_PWD}
     ports:
       - ${OMEKA_PORT}:8888
 volumes:
