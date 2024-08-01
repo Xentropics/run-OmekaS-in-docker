@@ -6,7 +6,7 @@ echo "install-modules.sh : logging in"
 echo "$USER"
 ls -la /var/www/html
 OMEKA_MAIL=$(jq -r '.install_form."user[email]"' /opt/imageboot/profile.json)
-OMEKA_PASS=$(jq -r '.install_form."user[password-confirm][password]"' /opt/imageboot/profile.json)
+OMEKA_PASS=${OMEKA_GLOBAL_ADMIN_PWD}
 set +e
 CSRF_TOKEN=$(curl -s -c "cookie.jar" -L http://127.0.0.1:8888/login | tidy -quiet -asxml | xmlstarlet sel -t -v '//_:input[@name="loginform_csrf"]/@value')
 echo "Token: $CSRF_TOKEN"
@@ -18,6 +18,7 @@ then
     echo "install-modules.sh : success!"    
 else
     echo "install-modules.sh : login error"
+    sleep 60
     exit 1
 fi
 

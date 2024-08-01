@@ -7,5 +7,9 @@ services:
     command: solr-precreate omeka
     expose:
       - 8983
+  omeka-s:
+    links:
+      - db:db
+      - solr:solr
 volumes:
   solr:
