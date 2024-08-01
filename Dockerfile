@@ -10,7 +10,7 @@ ENV skip_modules=yes
 
 LABEL maintainer="Jeroen Seeverens <j.seeverens@xentropics.nl>"
 LABEL description="Omeka S base image"
-LABEL version=0.5.0
+LABEL version=${OMEKA_IMAGE_TAG}
 
 # build deps and utils
 RUN apt-get update && \
@@ -24,8 +24,7 @@ RUN apt-get update && \
     mariadb-client
 
 # deps
-RUN apt-get -y install --no-install-recommends \
-    imagemagick
+RUN apt-get -y install --no-install-recommends imagemagick
 COPY profiles/template/etc/imagemagick-policy.xml /etc/ImageMagick/policy.xml
 
 # php deps and config
