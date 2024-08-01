@@ -59,17 +59,13 @@
                 },
                 "port": {
                     "type": "string"
-                },
-                "password": {
-                    "type": "string"
                 }
             },
             "required": [
                 "user",
                 "dbname",
                 "host",
-                "port",
-                "password"
+                "port"
             ]
         },
         "modules": {
