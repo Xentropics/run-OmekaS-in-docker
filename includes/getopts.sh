@@ -10,7 +10,6 @@ do
         u|\?) echo "Usage: $0 [-v omeka_version] [-c config_profile] [-t image_tag] [-m] [-u]"; exit 1;;
     esac
 done
-
 export OMEKA_IMAGE_TAG=$par_image_tag
 export OMEKA_SKIP_MODULES=$skip_modules
 export OMEKA_PROFILE=$config_profile
