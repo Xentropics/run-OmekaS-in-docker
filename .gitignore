@@ -5,3 +5,4 @@ profiles/*/*
 **/dev_modules/arch/
 **/themes/
 xentropics:omeka-s-docker/profiles/development
+xentropics-omeka-s-docker.code-workspace

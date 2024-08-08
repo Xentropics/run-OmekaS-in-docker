@@ -1,5 +1,6 @@
 #!/bin/bash
-debug="no"
-skip_modules="yes"
-par_image_tag="0.6.3"
-profile_dir=../xentropics-omeka-s-docker-profiles/profiles
+debug="${DEBUG:-no}"
+skip_modules="${SKIP_MODULES:-yes}"
+par_image_tag="${PAR_IMAGE_TAG:-0.6.3}"
+profile_dir="${PROFILE_DIR:-../xentropics-omeka-s-docker-profiles/profiles}"
+
