@@ -52,6 +52,10 @@ services:
         source: profiles/${OMEKA_PROFILE}/etc/ports.conf
         target: /etc/apache2/ports.conf
         read_only: true
+      - type: bind
+        source: profiles/${OMEKA_PROFILE}/etc/alias.conf
+        target: /etc/apache2/alias.conf
+        read_only: true
     environment:
       install_arkdeps: ${OMEKA_INSTALL_ARKDEPS}
       berkeleydb_lib: ${OMEKA_BERKELEYDB_LIB}
