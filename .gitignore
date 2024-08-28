@@ -1,4 +1,4 @@
-.env 
+.env
 profiles/*/*
 !profiles/template/*
 
