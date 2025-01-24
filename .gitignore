@@ -1,9 +1,9 @@
 .env
-profiles/*/*
+profiles/
 !profiles/template/*
 
 **/vendor/
 **/dev_modules/arch/
 **/themes/
-xentropics:omeka-s-docker/profiles/development
+development/omeka-s/
 xentropics-omeka-s-docker.code-workspace

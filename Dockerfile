@@ -19,7 +19,8 @@ RUN apt-get update && \
     jq \
     tidy \
     xmlstarlet \
-    mariadb-client
+    mariadb-client \
+    wget 
 
 # deps
 RUN apt-get -y install --no-install-recommends imagemagick

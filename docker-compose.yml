@@ -1,6 +1,6 @@
 services:
   db:
-    image: mysql:latest
+    image: mysql:8
     restart: always
     environment:
       MYSQL_DATABASE: ${OMEKA_DB}
